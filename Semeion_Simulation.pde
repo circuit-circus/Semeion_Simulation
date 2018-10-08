@@ -1,13 +1,17 @@
 ArrayList<Sem> sems; 
-int numSems = 10; 
 CollectiveMind collectiveMind;
+
+int rowNum = 4;
+int colNum = 4; 
 
 void setup() {
   size(800, 800);
   sems = new ArrayList();  
   collectiveMind = new CollectiveMind();
-  for (int i = 0; i < numSems; i++) {
-    sems.add(new Sem(int(random(0, 800)), int(random(0, 800)), int(random(0, TWO_PI)), int(random(3, 8)), collectiveMind));  
+  for (int j = 0; j < rowNum; j++){
+  for (int i = 0; i < colNum; i++) {
+    sems.add(new Sem((width / colNum) * i + ((width/colNum)/2) + random(-((width/colNum)/3), ((width/colNum)/3)), (height / rowNum) * j + ((height / rowNum)/2) + random(-((height/rowNum)/3), ((height/rowNum)/3)), int(random(5, 8)), collectiveMind));  
+  }
   }
   noStroke();
   colorMode(HSB);
