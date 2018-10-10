@@ -1,4 +1,4 @@
-class Sem { //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>//
+class Sem { //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>//
 
   float radius = random(35, 65); 
   int npoints = 5;
@@ -21,13 +21,15 @@ class Sem { //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>//
   CollectiveMind mind; 
 
   Sem(float x_, float y_, int n_, CollectiveMind m_) {
-    posX = x_; //<>// //<>//
+    posX = x_; //<>//
     posY = y_; 
     npoints = n_;  
     lastAction = new PVector[2];
     action = new PVector[2];  
-    lastAction[0] = new PVector(abs(posX - mouseX), abs(posY - mouseY));  
-    action[0] = new PVector(abs(posX - mouseX), abs(posY - mouseY)); 
+    for (int i = 0; i < agents.length; i++) {
+      lastAction[0] = new PVector(abs(posX - agents[i].x), abs(posY - agents[i].y));  
+      action[0] = new PVector(abs(posX -agents[i].x), abs(posY - agents[i].y));
+    }
     lastAction[1] = new PVector(0, 0);
     action[1] = new PVector(0, 0);
     mind = m_;
@@ -39,7 +41,7 @@ class Sem { //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>//
 
     //Draw the shape
     float angle = TWO_PI / npoints;
-    fill(220, 150, brightness);
+    fill(100, 200, brightness);
     //println(brightness);
     beginShape();
     for (float a = 0; a < TWO_PI; a += angle) {
@@ -51,8 +53,9 @@ class Sem { //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>//
   }
 
   void checkEnvironment() {
-
-    action[0] = new PVector(abs(posX - mouseX), abs(posY - mouseY)); //Distance between mouse and Sem
+    for (int i = 0; i < agents.length; i++) {
+      action[0] = new PVector(abs(posX - agents[i].x), abs(posY - agents[i].y)); //Distance between mouse and Sem
+    }
     //println(action[0].mag());
     action[1] = PVector.sub(lastAction[0], action[0]);  // Movement between mouse and Sem
     //println(action[0] + " - " + lastAction[0] + " = " + action[1]);
@@ -79,14 +82,14 @@ class Sem { //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>//
       //Default
       queueAnimation(-1); //Continue current animation
     }
-    //<>//
+
     animate();
 
     //Save last recorded actions
     lastAction[0] = action[0].copy(); 
     lastAction[1] = action[1].copy();
   }
-  //<>//
+
   void queueAnimation(int animationID) { //Check if a new animation has been requested and queue it 
     if (animationID != -1 && animationState != animationID) {
       incomingAnimation = animationID;
@@ -133,7 +136,7 @@ class Sem { //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>//
 
     case 2: // Idle, high
       println("Idle high");
-      animationTime = 70;  //<>//
+      animationTime = 70; 
       b = bezierPoint(8, 8, 12.3, 8, t);
       break;
 
@@ -175,7 +178,7 @@ class Sem { //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>//
       if (animationEnded) {
         incomingAnimation = 7;
       } else {
-        b = bezierPoint(0, 3, 3, 3, t); 
+        b = bezierPoint(0, 3, 3, 3, t);
       }
       break;
 
@@ -184,7 +187,7 @@ class Sem { //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>//
       if (animationEnded) {
         incomingAnimation = 8;
       } else {
-        b = bezierPoint(0, 0, 0, 0, t); 
+        b = bezierPoint(0, 0, 0, 0, t);
       }
       break;
 
